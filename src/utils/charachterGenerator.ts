@@ -1,15 +1,16 @@
 import { Character } from "@/types/character";
 import { CharacterClass } from "@/types/character";
-import { get } from "http";
+import { CharacterClass as CharacterClassEnum } from "@/enums/characterClass";
+
 
 export function generateCharacter() { 
     return randomizeClass(); 
 }
 
-
 const randomizeClass = () => {
-  const classes = ['wizard', 'fighter', 'thief'];
-  const me =  classes[Math.floor(Math.random() * classes.length)];
+  const classes: CharacterClassEnum[] = [CharacterClassEnum.wizard, CharacterClassEnum.fighter, CharacterClassEnum.thief];
+  const me: CharacterClassEnum = classes[Math.floor(Math.random() * classes.length)];
+  
   return <Character> {
     class: me,
     health: getHealth(me),
@@ -25,66 +26,66 @@ const randomizeClass = () => {
 
 const getHealth = (me) => {
   switch (me) {
-    case 'wizard':
+    case CharacterClassEnum.wizard:
       return 50;
-    case  'fighter':
+    case  CharacterClassEnum.fighter:
       return 100;
-    case 'thief':
+    case CharacterClassEnum.thief:
       return 75;
   }
 }
 
 const getAttack = (me) => {
   switch (me) {
-    case 'wizard':
+    case CharacterClassEnum.wizard:
       return 12;
-    case  'fighter':
+    case  CharacterClassEnum.fighter:
       return 10;
-    case 'thief':
+    case CharacterClassEnum.thief:
       return 7;
   }
 }
 
 const getDefence = (me) => {
   switch (me) {
-    case 'wizard':
+    case CharacterClassEnum.wizard:
       return 10;
-    case  'fighter':
+    case  CharacterClassEnum.fighter:
       return 15;
-    case 'thief':
+    case CharacterClassEnum.thief:
       return 12;
   }
 }
 
 const getWeapon = (me) => {
   switch (me) {
-    case 'wizard':
+    case CharacterClassEnum.wizard:
       return 'Staff';
-    case  'fighter':
+    case  CharacterClassEnum.fighter:
       return 'Short Sword';
-    case 'thief':
+    case  CharacterClassEnum.thief:
       return 'Dagger';
   }
 }
 
 const getArmor = (me) => { 
   switch (me) {
-    case 'wizard':
+    case CharacterClassEnum.wizard:
       return 'Robes';
-    case  'fighter':
+    case  CharacterClassEnum.fighter:
       return 'Chainmail';
-    case 'thief':
+    case  CharacterClassEnum.thief:
       return 'Leather armor';
   } 
 }
 
 const getSpecialAction = (me) => {
   switch (me) {
-    case 'wizard':
+    case CharacterClassEnum.wizard:
       return 'Fireball: Deal 20 damage to all enemies';
-    case  'fighter':
+    case  CharacterClassEnum.fighter:
       return 'Power Attack: Deal double damage on your next attack';
-    case 'thief':
+    case  CharacterClassEnum.thief:
       return 'Sneak: Automatically escape from combat';
   }
 }
