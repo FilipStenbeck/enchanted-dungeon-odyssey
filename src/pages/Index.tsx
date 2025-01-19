@@ -1,14 +1,75 @@
 import { useState, useEffect } from "react";
 import { generateDungeon } from "../utils/dungeonGenerator";
 import { Dungeon, Room } from "../types/game";
+import { useToast } from "@/components/ui/use-toast";
 
 const Index = () => {
   const [dungeon, setDungeon] = useState<Dungeon | null>(null);
+  const { toast } = useToast();
 
   useEffect(() => {
     const newDungeon = generateDungeon(5, 5);
     setDungeon(newDungeon);
   }, []);
+
+  useEffect(() => {
+    const handleKeyPress = (e: KeyboardEvent) => {
+      if (!dungeon) return;
+
+      const currentRoomId = dungeon.currentRoom;
+      const currentRoom = dungeon.rooms.find(room => room.id === currentRoomId);
+      if (!currentRoom) return;
+
+      let newRoomId = currentRoomId;
+      
+      switch (e.key.toLowerCase()) {
+        case 'w':
+        case 'arrowup':
+          if (currentRoom.connections.north) {
+            newRoomId = `${currentRoom.x}-${currentRoom.y - 1}`;
+          }
+          break;
+        case 's':
+        case 'arrowdown':
+          if (currentRoom.connections.south) {
+            newRoomId = `${currentRoom.x}-${currentRoom.y + 1}`;
+          }
+          break;
+        case 'a':
+        case 'arrowleft':
+          if (currentRoom.connections.west) {
+            newRoomId = `${currentRoom.x - 1}-${currentRoom.y}`;
+          }
+          break;
+        case 'd':
+        case 'arrowright':
+          if (currentRoom.connections.east) {
+            newRoomId = `${currentRoom.x + 1}-${currentRoom.y}`;
+          }
+          break;
+      }
+
+      if (newRoomId !== currentRoomId) {
+        const newRoom = dungeon.rooms.find(room => room.id === newRoomId);
+        if (newRoom && !newRoom.visited) {
+          toast({
+            title: `Entered ${newRoom.type} room!`,
+            description: "Prepare for what awaits...",
+          });
+        }
+        setDungeon({
+          ...dungeon,
+          currentRoom: newRoomId,
+          rooms: dungeon.rooms.map(room => 
+            room.id === newRoomId ? { ...room, visited: true } : room
+          )
+        });
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyPress);
+    return () => window.removeEventListener('keydown', handleKeyPress);
+  }, [dungeon, toast]);
 
   if (!dungeon) return <div>Loading...</div>;
 
@@ -17,6 +78,11 @@ const Index = () => {
       <h1 className="text-4xl font-bold mb-8 text-center">Enchanted Dungeon</h1>
       
       <div className="grid place-items-center">
+        <div className="mb-4 text-center">
+          <p>Use WASD or arrow keys to move</p>
+          <p className="text-gray-400">Current Room: {dungeon.currentRoom}</p>
+        </div>
+        
         <div 
           className="grid gap-1"
           style={{
@@ -40,6 +106,7 @@ const Index = () => {
                 ${room.type === 'shop' ? 'bg-blue-900' : ''}
                 ${room.type === 'boss' ? 'bg-purple-900' : ''}
                 ${room.type === 'empty' ? 'bg-gray-800' : ''}
+                ${room.visited ? 'opacity-100' : 'opacity-50'}
               `}>
                 {room.type.charAt(0).toUpperCase()}
               </div>
