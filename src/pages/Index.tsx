@@ -185,14 +185,16 @@ const Index = () => {
             >
               <div className={`
                 w-full h-full flex items-center justify-center
-                ${room.type === 'monster' ? 'bg-red-900' : ''}
-                ${room.type === 'treasure' ? 'bg-yellow-900' : ''}
-                ${room.type === 'shop' ? 'bg-blue-900' : ''}
-                ${room.type === 'boss' ? 'bg-purple-900' : ''}
-                ${room.type === 'empty' ? 'bg-gray-800' : ''}
-                ${room.visited ? 'opacity-100' : 'opacity-50'}
+                ${room.visited ? `
+                  ${room.type === 'monster' ? 'bg-red-900' : ''}
+                  ${room.type === 'treasure' ? 'bg-yellow-900' : ''}
+                  ${room.type === 'shop' ? 'bg-blue-900' : ''}
+                  ${room.type === 'boss' ? 'bg-purple-900' : ''}
+                  ${room.type === 'empty' ? 'bg-gray-800' : ''}
+                ` : 'bg-gray-700'}
+                opacity-100
               `}>
-                {room.type.charAt(0).toUpperCase()}
+                {room.visited ? room.type.charAt(0).toUpperCase() : '?'}
               </div>
 
               {room.connections.north && (
