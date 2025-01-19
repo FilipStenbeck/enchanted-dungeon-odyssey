@@ -1,11 +1,65 @@
-// Update this page (the content is just a fallback if you fail to update the page)
+import { useState, useEffect } from "react";
+import { generateDungeon } from "../utils/dungeonGenerator";
+import { Dungeon, Room } from "../types/game";
 
 const Index = () => {
+  const [dungeon, setDungeon] = useState<Dungeon | null>(null);
+
+  useEffect(() => {
+    const newDungeon = generateDungeon(5, 5);
+    setDungeon(newDungeon);
+  }, []);
+
+  if (!dungeon) return <div>Loading...</div>;
+
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-100">
-      <div className="text-center">
-        <h1 className="text-4xl font-bold mb-4">Welcome to Your Blank App</h1>
-        <p className="text-xl text-gray-600">Start building your amazing project here!</p>
+    <div className="min-h-screen bg-gray-900 text-white p-8">
+      <h1 className="text-4xl font-bold mb-8 text-center">Enchanted Dungeon</h1>
+      
+      <div className="grid place-items-center">
+        <div 
+          className="grid gap-1"
+          style={{
+            gridTemplateColumns: `repeat(${dungeon.size.width}, minmax(0, 1fr))`,
+          }}
+        >
+          {dungeon.rooms.map((room) => (
+            <div
+              key={room.id}
+              className={`w-16 h-16 border-2 ${
+                room.id === dungeon.currentRoom
+                  ? "border-yellow-400"
+                  : "border-gray-600"
+              } relative`}
+            >
+              {/* Room content */}
+              <div className={`
+                w-full h-full flex items-center justify-center
+                ${room.type === 'monster' ? 'bg-red-900' : ''}
+                ${room.type === 'treasure' ? 'bg-yellow-900' : ''}
+                ${room.type === 'shop' ? 'bg-blue-900' : ''}
+                ${room.type === 'boss' ? 'bg-purple-900' : ''}
+                ${room.type === 'empty' ? 'bg-gray-800' : ''}
+              `}>
+                {room.type.charAt(0).toUpperCase()}
+              </div>
+
+              {/* Room connections */}
+              {room.connections.north && (
+                <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-1 bg-gray-600" />
+              )}
+              {room.connections.south && (
+                <div className="absolute bottom-0 left-1/2 -translate-x-1/2 w-4 h-1 bg-gray-600" />
+              )}
+              {room.connections.east && (
+                <div className="absolute right-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-gray-600" />
+              )}
+              {room.connections.west && (
+                <div className="absolute left-0 top-1/2 -translate-y-1/2 w-1 h-4 bg-gray-600" />
+              )}
+            </div>
+          ))}
+        </div>
       </div>
     </div>
   );
