@@ -2,9 +2,93 @@ import { useState, useEffect } from "react";
 import { generateDungeon } from "../utils/dungeonGenerator";
 import { Dungeon, Room } from "../types/game";
 import { useToast } from "@/components/ui/use-toast";
+import RoomEncounter from "@/components/RoomEncounter";
+import { Encounter } from "@/types/encounters";
+
+const generateEncounter = (room: Room): Encounter => {
+  switch (room.type) {
+    case 'monster':
+      return {
+        type: 'monster',
+        title: "Monster Encounter!",
+        description: "A fearsome creature blocks your path!",
+        options: [
+          {
+            label: "Fight",
+            action: () => console.log("Fighting monster...")
+          },
+          {
+            label: "Run",
+            action: () => console.log("Running away...")
+          }
+        ]
+      };
+    case 'treasure':
+      return {
+        type: 'treasure',
+        title: "Treasure Found!",
+        description: "You've discovered a treasure chest!",
+        options: [
+          {
+            label: "Open",
+            action: () => console.log("Opening chest...")
+          },
+          {
+            label: "Leave",
+            action: () => console.log("Leaving treasure...")
+          }
+        ]
+      };
+    case 'shop':
+      return {
+        type: 'shop',
+        title: "Merchant's Shop",
+        description: "A mysterious merchant offers their wares.",
+        options: [
+          {
+            label: "Browse",
+            action: () => console.log("Browsing shop...")
+          },
+          {
+            label: "Leave",
+            action: () => console.log("Leaving shop...")
+          }
+        ]
+      };
+    case 'boss':
+      return {
+        type: 'boss',
+        title: "Boss Battle!",
+        description: "A powerful enemy awaits...",
+        options: [
+          {
+            label: "Fight",
+            action: () => console.log("Fighting boss...")
+          },
+          {
+            label: "Retreat",
+            action: () => console.log("Retreating...")
+          }
+        ]
+      };
+    default:
+      return {
+        type: 'empty',
+        title: "Empty Room",
+        description: "This room appears to be empty.",
+        options: [
+          {
+            label: "Continue",
+            action: () => console.log("Continuing...")
+          }
+        ]
+      };
+  }
+};
 
 const Index = () => {
   const [dungeon, setDungeon] = useState<Dungeon | null>(null);
+  const [currentEncounter, setCurrentEncounter] = useState<Encounter | null>(null);
   const { toast } = useToast();
 
   useEffect(() => {
@@ -56,6 +140,7 @@ const Index = () => {
             title: `Entered ${newRoom.type} room!`,
             description: "Prepare for what awaits...",
           });
+          setCurrentEncounter(generateEncounter(newRoom));
         }
         setDungeon({
           ...dungeon,
@@ -98,7 +183,6 @@ const Index = () => {
                   : "border-gray-600"
               } relative`}
             >
-              {/* Room content */}
               <div className={`
                 w-full h-full flex items-center justify-center
                 ${room.type === 'monster' ? 'bg-red-900' : ''}
@@ -111,7 +195,6 @@ const Index = () => {
                 {room.type.charAt(0).toUpperCase()}
               </div>
 
-              {/* Room connections */}
               {room.connections.north && (
                 <div className="absolute top-0 left-1/2 -translate-x-1/2 w-4 h-1 bg-gray-600" />
               )}
@@ -128,6 +211,12 @@ const Index = () => {
           ))}
         </div>
       </div>
+
+      <RoomEncounter 
+        encounter={currentEncounter}
+        isOpen={currentEncounter !== null}
+        onClose={() => setCurrentEncounter(null)}
+      />
     </div>
   );
 };
