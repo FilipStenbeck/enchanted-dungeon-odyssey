@@ -6,7 +6,7 @@ import RoomEncounter from "@/components/RoomEncounter";
 import { Encounter } from "@/types/encounters";
 import CharacterSheet from "@/components/CharacterSheet";
 import { Character } from "@/types/character";
-
+import { generateCharacter } from "@/utils/charachterGenerator";
 const generateEncounter = (room: Room): Encounter => {
   switch (room.type) {
     case 'monster':
@@ -94,17 +94,8 @@ const Index = () => {
   const { toast } = useToast();
 
   // Initialize character state
-  const [character] = useState<Character>({
-    class: 'fighter',
-    health: 100,
-    maxHealth: 100,
-    attack: 15,
-    defence: 10,
-    weapon: 'Long Sword',
-    armor: 'Chain Mail',
-    inventory: ['Health Potion', 'Torch', 'Rope'],
-    specialAction: 'Power Attack: Deal double damage on your next attack'
-  });
+  const [character] = useState<Character>(generateCharacter());
+
 
   useEffect(() => {
     const newDungeon = generateDungeon(5, 5);
