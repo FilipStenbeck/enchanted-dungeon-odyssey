@@ -168,7 +168,7 @@ const Index = () => {
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <h1 className="text-4xl font-bold mb-8 text-center">Enchanted Dungeon</h1>
       
-      <div className="flex justify-center gap-8">
+      <div className="flex justify-center gap-16">
         <div>
           <div className="mb-4 text-center">
             <p>Use WASD or arrow keys to move</p>
@@ -184,7 +184,7 @@ const Index = () => {
             {dungeon.rooms.map((room) => (
               <div
                 key={room.id}
-                className={`w-16 h-16 border-2 ${
+                className={`w-24 h-24 border-2 ${
                   room.id === dungeon.currentRoom
                     ? "border-yellow-400"
                     : "border-gray-600"
