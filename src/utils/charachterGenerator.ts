@@ -6,8 +6,8 @@ export function generateCharacter() {
         maxHealth: 100,
         attack: 15,
         defence: 10,
-        weapon: 'Long Sword',
-        armor: 'Chain Mail',
+        weapon: 'Short Sword',
+        armor: 'Leather armor',
         inventory: ['Health Potion', 'Torch', 'Rope'],
         specialAction: 'Power Attack: Deal double damage on your next attack'
       };
