@@ -8,17 +8,21 @@ import CharacterSheet from "@/components/CharacterSheet";
 import { Character } from "@/types/character";
 import { generateCharacter } from "@/utils/charachterGenerator";
 import { log } from "console";
+import { generateMonster } from "@/utils/monsterGenerator";
+
 const generateEncounter = (room: Room): Encounter => {
   switch (room.type) {
-    case 'monster':
+    case 'monster': {
+      const monster = generateMonster();
       return {
         type: 'monster',
-        title: "Monster Encounter!",
-        description: "A fearsome creature blocks your path!",
+        title: `${monster.name} Appears!`,
+        description: monster.description,
+        monster: monster,
         options: [
           {
             label: "Fight",
-            action: () => console.log("Fighting monster...")
+            action: () => console.log(`Fighting ${monster.name}...`)
           },
           {
             label: "Run",
@@ -26,6 +30,7 @@ const generateEncounter = (room: Room): Encounter => {
           }
         ]
       };
+    }
     case 'treasure':
       return {
         type: 'treasure',
@@ -96,7 +101,6 @@ const Index = () => {
 
   // Initialize character state
   const [character] = useState<Character>(generateCharacter());
-
 
   useEffect(() => {
     const newDungeon = generateDungeon(5, 5);

@@ -1,3 +1,5 @@
+import { Monster } from "./monsters";
+
 export type EncounterType = 'monster' | 'treasure' | 'shop' | 'boss' | 'empty';
 
 export interface Encounter {
@@ -5,6 +7,7 @@ export interface Encounter {
   title: string;
   description: string;
   options: EncounterOption[];
+  monster?: Monster; // Add monster property for monster encounters
 }
 
 export interface EncounterOption {
