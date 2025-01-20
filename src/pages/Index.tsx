@@ -92,14 +92,15 @@ const Index = () => {
           });
           
           const handleRunAway = () => {
-            toast({
-              title: "You ran away!",
-              description: "You lost 5 health.",
-            });
+            const healthLost = 3 +  Math.floor(Math.random() * 5);
             setCharacter(prev => ({
               ...prev,
-              health: prev.health - 5
+              health: prev.health - healthLost,
             }));
+            toast({
+              title: "You ran away!",
+              description: "You lost " + healthLost+ " health.",
+            });
             setDungeon({
               ...dungeon,
               rooms: dungeon.rooms.map(room => 
