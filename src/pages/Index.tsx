@@ -7,6 +7,7 @@ import { Encounter } from "@/types/encounters";
 import CharacterSheet from "@/components/CharacterSheet";
 import { Character } from "@/types/character";
 import { generateCharacter } from "@/utils/charachterGenerator";
+import { log } from "console";
 const generateEncounter = (room: Room): Encounter => {
   switch (room.type) {
     case 'monster':
@@ -108,8 +109,10 @@ const Index = () => {
 
       const currentRoomId = dungeon.currentRoom;
       const currentRoom = dungeon.rooms.find(room => room.id === currentRoomId);
+      
       if (!currentRoom) return;
-
+      const currentRoomDescription = currentRoom.description;
+      console.log(currentRoomDescription);
       let newRoomId = currentRoomId;
       
       switch (e.key.toLowerCase()) {
@@ -144,13 +147,14 @@ const Index = () => {
         if (newRoom && !newRoom.visited) {
           toast({
             title: `Entered ${newRoom.type} room!`,
-            description: "Prepare for what awaits...",
+            description: newRoom.description,
           });
           setCurrentEncounter(generateEncounter(newRoom));
         }
         setDungeon({
           ...dungeon,
           currentRoom: newRoomId,
+          currentRoomDescription: currentRoomDescription,
           rooms: dungeon.rooms.map(room => 
             room.id === newRoomId ? { ...room, visited: true } : room
           )
@@ -167,12 +171,12 @@ const Index = () => {
   return (
     <div className="min-h-screen bg-gray-900 text-white p-8">
       <h1 className="text-4xl font-bold mb-8 text-center">Enchanted Dungeon</h1>
+      <p className="text-gray-400 mb-8 text-center">{dungeon.currentRoomDescription} </p>
       
       <div className="flex justify-center gap-16">
         <div>
           <div className="mb-4 text-center">
             <p>Use WASD or arrow keys to move</p>
-            <p className="text-gray-400">Current Room: {dungeon.currentRoom}</p>
           </div>
           
           <div 

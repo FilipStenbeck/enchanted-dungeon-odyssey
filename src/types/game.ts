@@ -18,6 +18,7 @@ export interface Room {
 export interface Dungeon {
   rooms: Room[];
   currentRoom: string;
+  currentRoomDescription: string;
   level: number;
   size: {
     width: number;
