@@ -126,8 +126,8 @@ export function generateDungeon(width: number = 5, height: number = 5): Dungeon 
   return {
     rooms,
     currentRoom: '0-0',
+    currentRoomDescription: rooms[0].description,
     level: 1,
     size: { width, height }
   };
 }
-
