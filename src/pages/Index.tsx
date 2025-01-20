@@ -66,7 +66,17 @@ const Index = () => {
             title: `Entered ${newRoom.type} room!`,
             description: newRoom.description,
           });
-          setCurrentEncounter(generateEncounter(newRoom));
+          
+          const handleRunAway = () => {
+            setDungeon({
+              ...dungeon,
+              rooms: dungeon.rooms.map(room => 
+                room.id === newRoomId ? { ...room, visited: false } : room
+              )
+            });
+          };
+
+          setCurrentEncounter(generateEncounter(newRoom, handleRunAway));
         }
         setDungeon({
           ...dungeon,
