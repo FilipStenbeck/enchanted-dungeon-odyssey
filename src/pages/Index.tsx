@@ -45,7 +45,8 @@ const Index = () => {
 
   useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (!dungeon || isGameOver) return;
+      // Check if movement should be blocked
+      if (!dungeon || isGameOver || currentEncounter !== null) return;
 
       const currentRoomId = dungeon.currentRoom;
       const currentRoom = dungeon.rooms.find(room => room.id === currentRoomId);
@@ -122,7 +123,7 @@ const Index = () => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [dungeon, toast, isGameOver]);
+  }, [dungeon, toast, isGameOver, currentEncounter]);
 
   if (!dungeon) return <div>Loading...</div>;
 
