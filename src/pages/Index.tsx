@@ -9,6 +9,7 @@ import { Character } from "@/types/character";
 import { generateCharacter } from "@/utils/charachterGenerator";
 import DungeonMap from "@/components/DungeonMap";
 import { generateEncounter } from "@/components/EncounterManager";
+import { log } from "console";
 
 const Index = () => {
   const [dungeon, setDungeon] = useState<Dungeon | null>(null);
@@ -68,6 +69,11 @@ const Index = () => {
           });
           
           const handleRunAway = () => {
+            toast({
+              title: "You ran away!",
+              description: "You lost 5 health.",
+            });
+            character.health -= 5;
             setDungeon({
               ...dungeon,
               rooms: dungeon.rooms.map(room => 
