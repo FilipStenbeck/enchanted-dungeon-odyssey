@@ -1,4 +1,5 @@
 import { Room, Dungeon, RoomType } from '../types/game';
+import { getRoomDescription } from './roomGenerator';
 
 const ROOM_TYPES: RoomType[] = ['monster', 'treasure', 'shop', 'empty', 'boss'];
 
@@ -30,6 +31,7 @@ export function generateDungeon(width: number = 5, height: number = 5): Dungeon 
     for (let x = 0; x < width; x++) {
       const room: Room = {
         id: `${x}-${y}`,
+        description: getRoomDescription(),
         type: generateRandomRoomType(),
         visited: false,
         x,
@@ -128,3 +130,4 @@ export function generateDungeon(width: number = 5, height: number = 5): Dungeon 
     size: { width, height }
   };
 }
+

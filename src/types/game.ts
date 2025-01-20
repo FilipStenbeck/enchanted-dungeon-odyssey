@@ -4,6 +4,7 @@ export interface Room {
   id: string;
   type: RoomType;
   visited: boolean;
+  description: string;
   x: number;
   y: number;
   connections: {
