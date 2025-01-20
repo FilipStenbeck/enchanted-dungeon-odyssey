@@ -84,6 +84,7 @@ const Index = () => {
       if (newRoomId !== currentRoomId) {
         const newRoom = dungeon.rooms.find(room => room.id === newRoomId);
         if (newRoom && !newRoom.visited) {
+          setScore(prev => prev + 1);
           toast({
             title: `Entered ${newRoom.type} room!`,
             description: newRoom.description,
