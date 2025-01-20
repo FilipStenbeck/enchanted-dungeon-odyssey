@@ -9,22 +9,43 @@ import { Character } from "@/types/character";
 import { generateCharacter } from "@/utils/charachterGenerator";
 import DungeonMap from "@/components/DungeonMap";
 import { generateEncounter } from "@/components/EncounterManager";
-import { log } from "console";
+import GameOver from "@/components/GameOver";
 
 const Index = () => {
   const [dungeon, setDungeon] = useState<Dungeon | null>(null);
   const [currentEncounter, setCurrentEncounter] = useState<Encounter | null>(null);
   const { toast } = useToast();
-  const [character] = useState<Character>(generateCharacter());
+  const [character, setCharacter] = useState<Character>(generateCharacter());
+  const [isGameOver, setIsGameOver] = useState(false);
+  const [score, setScore] = useState(0);
 
   useEffect(() => {
-    const newDungeon = generateDungeon(5, 5);
-    setDungeon(newDungeon);
+    startNewGame();
   }, []);
 
   useEffect(() => {
+    if (character.health <= 0 && !isGameOver) {
+      setIsGameOver(true);
+      toast({
+        title: "Game Over!",
+        description: "Your health has dropped to 0!",
+        variant: "destructive",
+      });
+    }
+  }, [character.health, isGameOver, toast]);
+
+  const startNewGame = () => {
+    const newDungeon = generateDungeon(5, 5);
+    setDungeon(newDungeon);
+    setCharacter(generateCharacter());
+    setIsGameOver(false);
+    setScore(0);
+    setCurrentEncounter(null);
+  };
+
+  useEffect(() => {
     const handleKeyPress = (e: KeyboardEvent) => {
-      if (!dungeon) return;
+      if (!dungeon || isGameOver) return;
 
       const currentRoomId = dungeon.currentRoom;
       const currentRoom = dungeon.rooms.find(room => room.id === currentRoomId);
@@ -73,7 +94,10 @@ const Index = () => {
               title: "You ran away!",
               description: "You lost 5 health.",
             });
-            character.health -= 5;
+            setCharacter(prev => ({
+              ...prev,
+              health: prev.health - 5
+            }));
             setDungeon({
               ...dungeon,
               rooms: dungeon.rooms.map(room => 
@@ -97,7 +121,7 @@ const Index = () => {
 
     window.addEventListener('keydown', handleKeyPress);
     return () => window.removeEventListener('keydown', handleKeyPress);
-  }, [dungeon, toast]);
+  }, [dungeon, toast, isGameOver]);
 
   if (!dungeon) return <div>Loading...</div>;
 
@@ -121,6 +145,12 @@ const Index = () => {
         encounter={currentEncounter}
         isOpen={currentEncounter !== null}
         onClose={() => setCurrentEncounter(null)}
+      />
+
+      <GameOver 
+        isOpen={isGameOver}
+        score={score}
+        onRestart={startNewGame}
       />
     </div>
   );
