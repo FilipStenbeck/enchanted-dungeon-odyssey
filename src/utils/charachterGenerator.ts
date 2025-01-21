@@ -51,7 +51,7 @@ const getAttack = (me) => {
 const getDefence = (me) => {
   switch (me) {
     case CharacterClassEnum.wizard:
-      return 10;
+      return 8;
     case  CharacterClassEnum.fighter:
       return 15;
     case CharacterClassEnum.thief:
