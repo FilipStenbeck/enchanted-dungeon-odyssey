@@ -86,10 +86,7 @@ const Index = () => {
         const newRoom = dungeon.rooms.find(room => room.id === newRoomId);
         if (newRoom && !newRoom.visited) {
           setScore(prev => prev + 1);
-          toast({
-            title: `Entered ${newRoom.type} room!`,
-            description: newRoom.description,
-          });
+          
           
           const handleRunAway = () => {
             const healthLost = 3 +  Math.floor(Math.random() * 5);
@@ -135,9 +132,6 @@ const Index = () => {
       
       <div className="flex justify-center gap-16">
         <div>
-          <div className="mb-4 text-center">
-            <p>Use WASD or arrow keys to move</p>
-          </div>
           <RoomEncounter 
             encounter={currentEncounter}
             isOpen={currentEncounter !== null}
