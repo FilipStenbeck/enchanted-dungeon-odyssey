@@ -1,6 +1,7 @@
 import { Character } from "@/types/character";
 import { CharacterClass } from "@/types/character";
 import { CharacterClass as CharacterClassEnum } from "@/enums/characterClass";
+import { get } from "http";
 
 
 export function generateCharacter() { 
@@ -20,7 +21,7 @@ const randomizeClass = () => {
     weapon: getWeapon(me),
     armor: getArmor(me),
     gold: 0,
-    inventory: ['Health Potion', 'Torch', 'Rope'],
+    inventory: getInventory(me),
     specialAction: getSpecialAction(me),
   };
 }
@@ -77,6 +78,17 @@ const getArmor = (me) => {
       return 'Chainmail';
     case  CharacterClassEnum.thief:
       return 'Leather armor';
+  } 
+}
+
+const getInventory = (me) => { 
+  switch (me) {
+    case CharacterClassEnum.wizard:
+      return ['Health Potion', 'Potion of Invisibility'];
+    case  CharacterClassEnum.fighter:
+      return ['Health Potion'];
+    case  CharacterClassEnum.thief:
+      return ['Lockpicks', 'Smoke Bomb'];
   } 
 }
 
