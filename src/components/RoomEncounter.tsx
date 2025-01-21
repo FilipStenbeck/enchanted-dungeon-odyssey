@@ -1,4 +1,3 @@
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Encounter } from "@/types/encounters";
 
@@ -9,30 +8,27 @@ interface RoomEncounterProps {
 }
 
 const RoomEncounter = ({ encounter, onClose, isOpen }: RoomEncounterProps) => {
-  if (!encounter) return null;
+  if (!encounter || !isOpen) return null;
 
   return (
-    <Dialog open={isOpen} onOpenChange={() => onClose()}>
-      <DialogContent>
-        <DialogHeader>
-          <DialogTitle>{encounter.title}</DialogTitle>
-          <DialogDescription>{encounter.description}</DialogDescription>
-        </DialogHeader>
-        <div className="flex flex-col gap-2 mt-4">
-          {encounter.options.map((option, index) => (
-            <Button
-              key={index}
-              onClick={() => {
-                option.action();
-                onClose();
-              }}
-            >
-              {option.label}
-            </Button>
-          ))}
-        </div>
-      </DialogContent>
-    </Dialog>
+    <div className="bg-gray-800 p-6 rounded-lg border-2 border-gray-700 mb-4">
+      <h2 className="text-xl font-bold mb-2">{encounter.title}</h2>
+      <p className="text-gray-300 mb-4">{encounter.description}</p>
+      <div className="flex flex-col gap-2">
+        {encounter.options.map((option, index) => (
+          <Button
+            key={index}
+            onClick={() => {
+              option.action();
+              onClose();
+            }}
+            variant="secondary"
+          >
+            {option.label}
+          </Button>
+        ))}
+      </div>
+    </div>
   );
 };
 

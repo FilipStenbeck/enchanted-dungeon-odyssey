@@ -138,17 +138,16 @@ const Index = () => {
           <div className="mb-4 text-center">
             <p>Use WASD or arrow keys to move</p>
           </div>
+          <RoomEncounter 
+            encounter={currentEncounter}
+            isOpen={currentEncounter !== null}
+            onClose={() => setCurrentEncounter(null)}
+          />
           <DungeonMap rooms={dungeon.rooms} currentRoom={dungeon.currentRoom} />
         </div>
 
         <CharacterSheet character={character} />
       </div>
-
-      <RoomEncounter 
-        encounter={currentEncounter}
-        isOpen={currentEncounter !== null}
-        onClose={() => setCurrentEncounter(null)}
-      />
 
       <GameOver 
         isOpen={isGameOver}
