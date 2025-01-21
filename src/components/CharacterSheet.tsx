@@ -1,6 +1,6 @@
 import React from 'react';
 import { Character } from '../types/character';
-import { Shield, Sword, Heart, Backpack, Wand } from 'lucide-react';
+import { Shield, Sword, Heart, Backpack, Wand, Coins } from 'lucide-react';
 
 interface CharacterSheetProps {
   character: Character;
@@ -55,6 +55,16 @@ const CharacterSheet = ({ character }: CharacterSheetProps) => {
           {character.inventory.map((item, index) => (
             <li key={index} className="text-sm">{item}</li>
           ))}
+        </ul>
+      </div>
+
+      <div className="space-y-2 pt-4 border-t border-gray-600">
+        <div className="flex items-center gap-2">
+          <Coins className="text-gray-300" size={20} />
+          <div className="text-gray-400">Gold</div>
+        </div>
+        <ul className="pl-4 space-y-1">
+          {character.gold}
         </ul>
       </div>
 

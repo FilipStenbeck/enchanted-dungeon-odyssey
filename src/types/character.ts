@@ -9,5 +9,6 @@ export interface Character {
   weapon: string;
   armor: string;
   inventory: string[];
+  gold: number;
   specialAction: string;
 }

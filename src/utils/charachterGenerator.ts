@@ -19,6 +19,7 @@ const randomizeClass = () => {
     defence: getDefence(me),
     weapon: getWeapon(me),
     armor: getArmor(me),
+    gold: 0,
     inventory: ['Health Potion', 'Torch', 'Rope'],
     specialAction: getSpecialAction(me),
   };
