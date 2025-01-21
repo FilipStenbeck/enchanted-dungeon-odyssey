@@ -64,6 +64,7 @@ const RoomEncounter = ({ encounter, onClose, isOpen }: RoomEncounterProps) => {
           onRunAway={() => {
             setShowFightDialog(false);
             encounter.options.find(opt => opt.label === "Run")?.action();
+            onClose();
           }}
         />
       )}
