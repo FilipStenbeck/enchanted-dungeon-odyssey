@@ -8,9 +8,10 @@ interface FightDialogProps {
   isOpen: boolean;
   onClose: () => void;
   onRunAway: () => void;
+  onFightwon: () => void;
 }
 
-const FightDialog = ({ monster, isOpen, onClose, onRunAway }: FightDialogProps) => {
+const FightDialog = ({ monster, isOpen, onClose, onRunAway, onFightwon }: FightDialogProps) => {
   return (
     <AlertDialog open={isOpen} onOpenChange={onClose}>
       <AlertDialogContent className="bg-gray-800 border-2 border-gray-700 text-white max-w-2xl">
@@ -38,7 +39,7 @@ const FightDialog = ({ monster, isOpen, onClose, onRunAway }: FightDialogProps) 
           <Button 
             variant="secondary"
             className="bg-red-900/50 hover:bg-red-800 border border-red-700"
-            onClick={() => console.log("Attack!")}
+            onClick={onFightwon}
           >
             <Sword className="mr-2" />
             Attack

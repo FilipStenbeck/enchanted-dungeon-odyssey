@@ -106,7 +106,15 @@ const Index = () => {
             });
           };
 
-          setCurrentEncounter(generateEncounter(newRoom, handleRunAway));
+          const handleFightWon = () => {
+            toast({
+              title: "You ran won the fight!",
+              description: "You are victorious.",
+            });
+            
+          };
+
+          setCurrentEncounter(generateEncounter(newRoom, handleRunAway, handleFightWon));
         }
         setDungeon({
           ...dungeon,

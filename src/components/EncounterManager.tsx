@@ -2,7 +2,7 @@ import { Room } from "@/types/game";
 import { Encounter } from "@/types/encounters";
 import { generateMonster } from "@/utils/monsterGenerator";
 
-export const generateEncounter = (room: Room, onRunAway: () => void): Encounter => {
+export const generateEncounter = (room: Room, onRunAway: () => void, onFightwon: () => void): Encounter => {
   switch (room.type) {
     case 'monster': {
       const monster = generateMonster();
@@ -14,7 +14,7 @@ export const generateEncounter = (room: Room, onRunAway: () => void): Encounter 
         options: [
           {
             label: "Fight",
-            action: () => console.log(`Fighting ${monster.name}...`)
+            action: onFightwon
           },
           {
             label: "Run",

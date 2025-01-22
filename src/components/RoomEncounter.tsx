@@ -2,6 +2,7 @@ import { Button } from "@/components/ui/button";
 import { Encounter } from "@/types/encounters";
 import { useState } from "react";
 import FightDialog from "./FightDialog";
+import { log } from "console";
 
 interface RoomEncounterProps {
   encounter: Encounter | null;
@@ -63,6 +64,11 @@ const RoomEncounter = ({ encounter, onClose, isOpen }: RoomEncounterProps) => {
           onRunAway={() => {
             setShowFightDialog(false);
             encounter.options.find(opt => opt.label === "Run")?.action();
+            onClose();
+          }}
+          onFightwon={() => {
+            setShowFightDialog(false);
+            encounter.options.find(opt => opt.label === "Fight")?.action();
             onClose();
           }}
         />
